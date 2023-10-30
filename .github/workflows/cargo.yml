@@ -33,6 +33,5 @@ jobs:
       - name: Cargo Build
         run: |
           sudo apt-get install -y musl-dev musl-tools
-          pip3 install ziglang
           rustup target add x86_64-unknown-linux-musl
-          cargo zigbuild --target x86_64-unknown-linux-musl --release
+          RUSTFLAGS='-Clinker=rust-lld' cargo build --target x86_64-unknown-linux-musl --release
