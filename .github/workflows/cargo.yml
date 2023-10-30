@@ -33,5 +33,6 @@ jobs:
       - name: Cargo Build
         run: |
           sudo apt-get install -y musl-dev musl-tools
+          rustup target add x86_64-unknown-linux-musl
           RUSTFLAGS=-Awarnings cargo build --release --target x86_64-unknown-linux-musl --message-format=json-diagnostic-rendered-ansi | jq -r 'select(.reason == "compiler-message") | .message as $message | $message.spans[] | select(.is_primary == true) | "::" + $message.level + " file=" + .file_name + ",line=" + (.line_start | tostring) + ",endLine=" + (.line_end | tostring) + ",title=" + $message.message + "::" + $message.rendered'
           exit ${PIPESTATUS[0]}
